@@ -15,7 +15,7 @@ app.use(express.static('public'));
 
 async function connectToDB() {
     try {
-        await mongoose.connect(process.env.DATABASE_URL, {
+        await mongoose.connect(DATABASE_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
