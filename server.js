@@ -1,10 +1,14 @@
-//require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
+const authorRouter = require('./routes/authors');
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -15,7 +19,7 @@ app.use(express.static('public'));
 
 async function connectToDB() {
     try {
-        await mongoose.connect(DATABASE_URL, {
+        await mongoose.connect(process.env.DATABASE_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -26,6 +30,7 @@ async function connectToDB() {
 }
 
 app.use('/', indexRouter);
+app.use('/authors', authorRouter);
 
 connectToDB();
 
